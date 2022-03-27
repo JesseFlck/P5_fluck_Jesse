@@ -1,0 +1,19 @@
+{
+  "name": "p5_fluck_jesse",
+  "version": "1.0.0",
+  "description": "This is the front end and back end server for Project 5 of the Web Developer path.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JesseFlck/P5_fluck_Jesse.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JesseFlck/P5_fluck_Jesse/issues"
+  },
+  "homepage": "https://github.com/JesseFlck/P5_fluck_Jesse#readme"
+}
