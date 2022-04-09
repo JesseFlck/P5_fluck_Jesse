@@ -39,6 +39,7 @@ let basketArray = [];
 addToCart.addEventListener('click', function(e){
     // conditions pour quantité etc
     
+    /* REMPLIR LES CONDITIONS AVEC DES ALERTES ICI */
 
     // Données à récupérer
     let basket = {
