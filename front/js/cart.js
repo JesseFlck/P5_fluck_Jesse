@@ -27,10 +27,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 })
 
 // Récupération de la quantité de produits
-const select = document.querySelectorAll('.itemQuantity')
-    
+const select = document.getElementsByClassName('itemQuantity')
+    console.log(select)
 // Modification de la quantité du panier
-/*select.forEach(productQuantity => {
+
+select.forEach(productQuantity => {
     const element = productQuantity.closest('article')
     const data_id = element.dataset.id
     const data_color = element.dataset.color
@@ -40,8 +41,8 @@ const select = document.querySelectorAll('.itemQuantity')
         localStorage.setItem('panier', JSON.stringify(cart))
         total(cart)
     })
-    total(cart)
-})*/
+})
+
 
 // Suppression des éléments du panier
 const deleteItem = document.querySelectorAll('.deleteItem')
@@ -93,16 +94,20 @@ function createCart(products, productCart, cart__items) {
 }
 
 // Calcul du total
-function total(cart) {
-    let totalArticle = 0
+/*function total(cart) {
     let totalPrice = 0
-    for (const i of cart) {
-        totalArticle += +parseInt(i.quantity)
-        totalPrice += +parseInt(i.price) * +parseInt(i.quantity)
-    }
-    document.getElementById('totalQuantity').innerHTML = totalArticle
-    document.getElementById('totalPrice').innerHTML = totalPrice
-}
+        let totalArticle = 0
+        for (productCart of cart) {
+            const response = await fetch('http://localhost:3000/api/products/' + productCart.id)
+            const data = await response.json()  
+            createCart(data, productCart, cart__items)
+            totalArticle = totalArticle + 1
+            totalPrice = totalPrice + (data.price * productCart.quantity)
+        }
+        document.getElementById('totalQuantity').innerHTML = totalArticle
+        document.getElementById('totalPrice').innerHTML = totalPrice
+        console.log(totalPrice)
+}*/
 
 
 
@@ -274,9 +279,8 @@ const validEmailForm = (inputEmailForm) => {
          .then((reponse) => reponse.json())
          .then((data) => {
              localStorage.clear();
-             localStorage.setItem('orderId', data.orderId);
 
-             window.location.href = 'confirmation.html';
+             window.location.href = `confirmation.html?orderId=${data.orderId}`;
          })
          .catch((err) => {
              alert();
