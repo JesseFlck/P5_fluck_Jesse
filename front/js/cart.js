@@ -24,14 +24,39 @@ document.addEventListener('DOMContentLoaded', async () => {
     {
         cart__items.innerHTML +=`<h2 style="text-align:center">Le panier est vide</h2>`
     }
-})
 
-// Récupération de la quantité de produits
-const select = document.getElementsByClassName('itemQuantity')
-    console.log(select)
-// Modification de la quantité du panier
 
-select.forEach(productQuantity => {
+    // Récupération de la quantité de produits
+    const select = document.querySelectorAll('.itemQuantity')
+        console.log(select)
+
+    // Modification de la quantité du panier
+    for (productQuantity of select) {
+        const element = productQuantity.closest('article')
+        const data_id = element.dataset.id
+        const data_color = element.dataset.color
+        productQuantity.addEventListener ('change', async () => {
+            const item = cart.find(item => item.id == data_id && item.color == data_color)
+            item.quantity = +productQuantity.value
+            localStorage.setItem('panier', JSON.stringify(cart))
+            let totalPrice = 0
+            let totalArticle = 0
+            for (productCart of cart) {
+                const response = await fetch('http://localhost:3000/api/products/' + productCart.id)
+                const data = await response.json()  
+                totalArticle = totalArticle +1
+                totalPrice = totalPrice + (data.price * productCart.quantity)
+            }
+            document.getElementById('totalQuantity').innerHTML = totalArticle
+            document.getElementById('totalPrice').innerHTML = totalPrice
+            console.log(totalPrice)
+        })
+    }
+
+
+// ******* ANCIEN CODE DE MODIFICATION QUI NE FONCTIONNAIT PAS *******
+
+/*select.forEach(productQuantity => {
     const element = productQuantity.closest('article')
     const data_id = element.dataset.id
     const data_color = element.dataset.color
@@ -41,27 +66,29 @@ select.forEach(productQuantity => {
         localStorage.setItem('panier', JSON.stringify(cart))
         total(cart)
     })
-})
+})*/
 
 
-// Suppression des éléments du panier
-const deleteItem = document.querySelectorAll('.deleteItem')
+    // Suppression des éléments du panier
+    const deleteItem = document.querySelectorAll('.deleteItem')
 
-deleteItem.forEach(productDelete => {
-    const element = productDelete.closest('article')
-    const data_id = element.dataset.id
-    const data_color = element.dataset.color
+    deleteItem.forEach(productDelete => {
+        const element = productDelete.closest('article')
+        const data_id = element.dataset.id
+        const data_color = element.dataset.color
 
-    productDelete.addEventListener('click', () => {
-        if (confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')){
-            element.parentNode.removeChild(element)
-            cart.splice(cart.indexOf(cart.find(item => item.id === data_id && item.color === data_color)), 1)
-            localStorage.setItem('panier', JSON.stringify(cart))
-            alert('Le produit a été retiré du panier')
-            window.location.reload()
-        }
+        productDelete.addEventListener('click', () => {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')){
+                element.parentNode.removeChild(element)
+                cart.splice(cart.indexOf(cart.find(item => item.id === data_id && item.color === data_color)), 1)
+                localStorage.setItem('panier', JSON.stringify(cart))
+                alert('Le produit a été retiré du panier')
+                window.location.reload()
+            }
+        })
     })
 })
+
 
 
 
