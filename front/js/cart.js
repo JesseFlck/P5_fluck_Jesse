@@ -26,18 +26,78 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
 
-    // Récupération de la quantité de produits
-    const select = document.querySelectorAll('.itemQuantity')
-        console.log(select)
 
-    // Modification de la quantité du panier
-    for (productQuantity of select) {
-        const element = productQuantity.closest('article')
+
+// Modification de la quantité d'un produit avec écoute de l'input
+
+function updateQuantity(poductQuantity){
+    let article = poductQuantity.target.closest('article');
+    let index = cart.findIndex(product => product.id === article.dataset.id && product.color === article.dataset.color);
+    cart[index].quantity = parseInt(poductQuantity.target.value);
+    window.localStorage.setItem("panier", JSON.stringify(cart));
+    getTotals();    
+}
+// Application de la modification de la quantité
+
+function modifyQuantity(){
+    let cartItems = document.getElementById('cart__items');
+    cartItems.onchange = updateQuantity;
+}
+modifyQuantity();
+
+// Suppression d'un produit du panier
+
+function removeItem(event){
+    let article = event.target.closest('article');
+    cart = cart.filter(product => product.id !== article.dataset.id || product.color !== article.dataset.color);
+    window.localStorage.setItem("panier", JSON.stringify(cart));
+    article.remove();
+    getTotals();
+    document.getElementById('totalQuantity').textContent = totalQuantity;
+    document.getElementById('totalPrice').textContent = totalPrice;
+}
+// Application de la suppression du produit
+
+function deleteItem(){
+    let cartItems = document.getElementsByClassName('deleteItem');
+    for (let item of cartItems){
+        item.onclick = removeItem;
+    } 
+}
+deleteItem();
+
+
+
+function getTotals() {
+    window.localStorage.getItem("panier", cart);
+    let totalQuantity = 0;
+    let totalPrice = 0;
+    for (let i = 0; i < cart.length; i++) {
+
+        totalQuantity += parseInt(cart[i].quantity);
+        console.log(totalPrice)
+        totalPrice += parseInt(cart[i].quantity  * cart[i].price /* récup prix API au lieu de ce qui est noté */ );
+        console.log(typeof totalPrice)
+        console.log(totalPrice)
+    }
+    document.getElementById('totalQuantity').textContent = totalQuantity;
+    document.getElementById('totalPrice').textContent = totalPrice;
+}
+
+
+
+
+
+
+
+/*// Modification de la quantité du panier
+select.addEventListener ('change', async () => {
+    for (quantity of select) {
+        const element = quantity.closest('article')
         const data_id = element.dataset.id
         const data_color = element.dataset.color
-        productQuantity.addEventListener ('change', async () => {
             const item = cart.find(item => item.id == data_id && item.color == data_color)
-            item.quantity = +productQuantity.value
+            item.quantity = +quantity.value
             localStorage.setItem('panier', JSON.stringify(cart))
             let totalPrice = 0
             let totalArticle = 0
@@ -46,27 +106,33 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const data = await response.json()  
                 totalArticle = totalArticle +1
                 totalPrice = totalPrice + (data.price * productCart.quantity)
+                console.log("bonjour")
+                console.log(productCart.quantity)
             }
             document.getElementById('totalQuantity').innerHTML = totalArticle
             document.getElementById('totalPrice').innerHTML = totalPrice
             console.log(totalPrice)
-        })
-    }
+        }
+    })*/
+
+})
 
 
+/*
+    // Récupération de la quantité de produits
+    const select = document.querySelectorAll('.itemQuantity')
+    console.log(select)
 // ******* ANCIEN CODE DE MODIFICATION QUI NE FONCTIONNAIT PAS *******
 
-/*select.forEach(productQuantity => {
+select.onclick = function(productQuantity){
     const element = productQuantity.closest('article')
     const data_id = element.dataset.id
     const data_color = element.dataset.color
-    select.addEventListener('change', () => {
         const item = cart.find(item => item.id == data_id && item.color == data_color)
         item.quantity = +productQuantity.value
         localStorage.setItem('panier', JSON.stringify(cart))
-        total(cart)
-    })
-})*/
+        totalCart()
+}
 
 
     // Suppression des éléments du panier
@@ -87,7 +153,49 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         })
     })
-})
+
+
+
+
+    // Calcul des totaux
+
+function totalCart() {
+    let totalQuantity = 0;
+    let totalPrice = 0;
+    for (let i = 0; i < cart.length; i++) {
+        totalQuantity += parseInt(cart[i].quantity);
+        totalPrice += parseInt(cart[i].quantity) * parseInt(cart[i].price);
+        console.log(typeof totalPrice)
+        console.log(totalPrice)
+    }
+    document.getElementById('totalQuantity').textContent = totalQuantity;
+    document.getElementById('totalPrice').textContent = totalPrice;
+}
+*/
+
+
+/*function updateQuantity(poductQuantity){
+    let article = poductQuantity.target.closest('article');
+    let index = cart.findIndex(product => product.id === article.dataset.id && product.color === article.dataset.color);
+    cart[index].quantity = parseInt(poductQuantity.target.value);
+    window.localStorage.setItem("cart", JSON.stringify(cart));
+    getTotals();    
+}
+
+
+const select = document.querySelectorAll('.itemQuantity')
+console.log(select)
+
+select.addEventListener('change', () =>{
+    const element = productQuantity.closest('article')
+    const data_id = element.dataset.id
+    const data_color = element.dataset.color
+    const item = cart.find(product => product.id == data_id && product.color == data_color)
+})*/
+
+
+
+
 
 
 
@@ -119,22 +227,6 @@ function createCart(products, productCart, cart__items) {
             </div>
         </article>`
 }
-
-// Calcul du total
-/*function total(cart) {
-    let totalPrice = 0
-        let totalArticle = 0
-        for (productCart of cart) {
-            const response = await fetch('http://localhost:3000/api/products/' + productCart.id)
-            const data = await response.json()  
-            createCart(data, productCart, cart__items)
-            totalArticle = totalArticle + 1
-            totalPrice = totalPrice + (data.price * productCart.quantity)
-        }
-        document.getElementById('totalQuantity').innerHTML = totalArticle
-        document.getElementById('totalPrice').innerHTML = totalPrice
-        console.log(totalPrice)
-}*/
 
 
 
