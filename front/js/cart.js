@@ -47,15 +47,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Suppression d'un produit du panier
 
     function removeItem(event){
-        let article = event.target.closest('article');
-        cart = cart.filter(product => product.id !== article.dataset.id || product.color !== article.dataset.color);
-        window.localStorage.setItem("panier", JSON.stringify(cart));
-        //confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')
-        article.remove();
-        getTotals();
-        alert('Le produit a été retiré du panier')
-        document.getElementById('totalQuantity').textContent = totalQuantity;
-        document.getElementById('totalPrice').textContent = totalPrice;
+        let confirmDel = confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')
+        if(confirmDel == true){
+            let article = event.target.closest('article');
+            cart = cart.filter(product => product.id !== article.dataset.id || product.color !== article.dataset.color);
+            window.localStorage.setItem("panier", JSON.stringify(cart));
+            article.remove();
+            if(cart.length == 0){
+                alert('Le produit a été retiré du panier')
+                document.getElementById('totalQuantity').textContent = 0;
+                document.getElementById('totalPrice').textContent = 0;
+            }else{
+                getTotals();
+                alert('Le produit a été retiré du panier')
+                document.getElementById('totalQuantity').textContent = totalQuantity;
+                document.getElementById('totalPrice').textContent = totalPrice;
+            }
+        }
     }
     // Application de la suppression du produit
 
@@ -127,6 +135,19 @@ function createCart(products, productCart, cart__items) {
 let form = document.querySelector(".cart__order__form");
 
 
+// mettre en place fonction pour les regex
+
+/*function regExp (){
+    if (regExp = firstNameRegExp ^ lastNameRegExp) {
+        regExp = new RegExp ('^[a-zA-Z-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s -]*$', 'g');
+    } else if (regExp = addressRegExp) {
+        let addressRegExp = new RegExp ('^[ a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s -]*$', 'g');
+    } else if (regExp = emailFormRegExp) {
+        let emailFormRegExp = new RegExp('^[a-zA-Z0-9ôöáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
+    }
+}*/
+
+
 // ******* PRENOM *******
 
 form.firstName.addEventListener('change', function () {
@@ -137,7 +158,7 @@ form.firstName.addEventListener('change', function () {
 const validFirstName = (inputFirstName) => {
 
     // Création de la regexp pour le prénom
-    let firstNameRegExp = new RegExp('^[a-zA-Z-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s -]*$', 'g');
+    firstNameRegExp = new RegExp ('^[a-zA-Z-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s -]*$', 'g');
 
     let testFirstName = firstNameRegExp.test(inputFirstName.value);
 

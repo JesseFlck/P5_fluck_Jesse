@@ -25,5 +25,5 @@ fetch("http://localhost:3000/api/products/")
 
 
 .catch(function(error) {
-    console.log(error);
+    alert(error);
 })

@@ -37,10 +37,6 @@ let basketArray = [];
 // Récupération des éléments du produit au clic grâce à un événement
 
 addToCart.addEventListener('click', function(e){
-    // conditions pour quantité etc
-    
-    /* REMPLIR LES CONDITIONS AVEC DES ALERTES ICI */
-
     // Données à récupérer
     let basket = {
         id: id,
@@ -52,8 +48,6 @@ addToCart.addEventListener('click', function(e){
         alert('Merci de renseigner une couleur et une quantité entre 0 et 100 !')
     }
     else{
-        console.log('ok')
-
         // On vérifie si le panier existe déjà
         if (localStorage.getItem('panier') == null || localStorage.getItem('panier') == []){
             basketArray.push(basket)
@@ -77,7 +71,6 @@ addToCart.addEventListener('click', function(e){
                 localStorage.setItem('panier', JSON.stringify(storageCart))
             }
         }
+        alert('Le produit a été ajouté au panier')
     }
-    console.log(basket)
-    console.log(localStorage.getItem('panier'))
 });
