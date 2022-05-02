@@ -131,132 +131,53 @@ function createCart(products, productCart, cart__items) {
 
 // Gestion du formulaire
 
-//Récupération des éléments du formulaire
+// Récupération des éléments du formulaire
 let form = document.querySelector(".cart__order__form");
 
 
-// mettre en place fonction pour les regex
+// Fonction pour la RegExp du prénom et nom
 
-/*function regExp (){
-    if (regExp = firstNameRegExp ^ lastNameRegExp) {
-        regExp = new RegExp ('^[a-zA-Z-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s -]*$', 'g');
-    } else if (regExp = addressRegExp) {
-        let addressRegExp = new RegExp ('^[ a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s -]*$', 'g');
-    } else if (regExp = emailFormRegExp) {
-        let emailFormRegExp = new RegExp('^[a-zA-Z0-9ôöáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
-    }
-}*/
+function nameTest (input){
 
+    nameRegExp = new RegExp ('^[a-zA-Z-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s -]*$', 'g');
 
-// ******* PRENOM *******
+    let testName = nameRegExp.test(input.value);
 
-form.firstName.addEventListener('change', function () {
-    validFirstName(this);
-})
+    let errorMessage = input.nextElementSibling;
 
-// Fonction pour contrôler la validation via regexp
-const validFirstName = (inputFirstName) => {
-
-    // Création de la regexp pour le prénom
-    firstNameRegExp = new RegExp ('^[a-zA-Z-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s -]*$', 'g');
-
-    let testFirstName = firstNameRegExp.test(inputFirstName.value);
-
-    let errorMessage = inputFirstName.nextElementSibling;
-
-    if (testFirstName) {
-
-    } else {
-        errorMessage.innerText = 'Le prénom ne doit pas contenir de chiffre';
-    }
-};
-
-// ******* NOM *******
-
-form.lastName.addEventListener('change', function () {
-    validLastName(this);
-})
-
-// Fonction pour contrôler la validation via regexp
-const validLastName = (inputLastname) => {
-
-    // Création de la regexp pour le nom
-    let lastNameRegExp = new RegExp('^[a-zA-Z-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s -]*$', 'g');
-
-    let testLastNameRegExp = lastNameRegExp.test(inputLastname.value);
-
-    let errorMessage = inputLastname.nextElementSibling;
-
-    if (testLastNameRegExp) {
+    if (testName) {
 
     } else {
         errorMessage.innerText = 'Le nom ne doit pas contenir de chiffre';
     }
-};
+}
 
 
-// ******* ADRESSE *******
+// Fonction pour la RegExp de l'adresse
 
-form.address.addEventListener('change', function () {
-    validAddress(this);
-})
+function addressTest (input){
+    adressRegExp = new RegExp('^[ a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s -]*$', 'g');
 
-// Fonction pour contrôler la validation via regexp
-const validAddress = (inputAddress) => {
+    let testAddressRegExp = AdressRegExp.test(input.value);
 
-    // Création de la regexp pour l'adresse
-    let AdressRegExp = new RegExp('^[ a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s -]*$', 'g');
-
-    let testAddressRegExp = AdressRegExp.test(inputAddress.value);
-
-    let errorMessage = inputAddress.nextElementSibling;
+    let errorMessage = input.nextElementSibling;
 
     if (testAddressRegExp) {
 
     } else {
         errorMessage.innerText = 'Merci de renseigner une adresse valide.';
     }
-};
-
-// ******* VILLE *******
-
-form.city.addEventListener('change', function () {
-    validCity(this);
-})
-
-// Fonction pour contrôler la validation via regexp
-const validCity = (inputCity) => {
-
-    // Création de la regexp pour la ville
-    let cityRegExp = new RegExp('^[ a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s -]*$', 'g');
-
-    let testCityRegExp = cityRegExp.test(inputCity.value);
-
-    let errorMessage = inputCity.nextElementSibling;
-
-    if (testCityRegExp) {
-
-    } else {
-        errorMessage.innerText = `Merci de renseigner une ville valide`;
-    }
-};
+}
 
 
-// ******* EMAIL *******
+// Fonction pour la RegExp du mail
 
-form.email.addEventListener('change', function () {
-    validEmailForm(this);
-})
+function mailTest (input){
+    emailFormRegExp = new RegExp('^[a-zA-Z0-9ôöáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
 
-// Fonction pour contrôler la validation via regexp
-const validEmailForm = (inputEmailForm) => {
+    let testEmailRegExp = emailFormRegExp.test(input.value);
 
-    // Création de la regexp pour l'adresse mail
-    let emailFormRegExp = new RegExp('^[a-zA-Z0-9ôöáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
-
-    let testEmailRegExp = emailFormRegExp.test(inputEmailForm.value);
-
-    let errorMessage = inputEmailForm.nextElementSibling;
+    let errorMessage = input.nextElementSibling;
 
     if (testEmailRegExp) {
 
@@ -264,6 +185,32 @@ const validEmailForm = (inputEmailForm) => {
         errorMessage.innerText = `Merci de renseigner une adresse mail valide`;
     }
 }
+
+
+// ******* PRENOM *******
+form.firstName.addEventListener('change', function () {
+    nameTest(this);
+})
+
+// ******* NOM *******
+form.lastName.addEventListener('change', function () {
+    nameTest(this);
+})
+
+// ******* ADRESSE *******
+form.address.addEventListener('change', function () {
+    addressTest(this);
+})
+
+// ******* VILLE *******
+form.city.addEventListener('change', function () {
+    addressTest(this);
+})
+
+// ******* EMAIL *******
+form.email.addEventListener('change', function () {
+    mailTest(this);
+})
 
 
  // ******* Passer la commande *******
