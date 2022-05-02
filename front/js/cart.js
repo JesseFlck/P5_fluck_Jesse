@@ -158,7 +158,7 @@ function nameTest (input){
 function addressTest (input){
     adressRegExp = new RegExp('^[ a-zA-Z0-9áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ._\s -]*$', 'g');
 
-    let testAddressRegExp = AdressRegExp.test(input.value);
+    let testAddressRegExp = adressRegExp.test(input.value);
 
     let errorMessage = input.nextElementSibling;
 
