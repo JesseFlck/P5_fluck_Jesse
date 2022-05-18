@@ -25,16 +25,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Modification de la quantité d'un produit avec écoute de l'input
 
-    function updateQuantity(poductQuantity) {
-        let article = poductQuantity.target.closest('article');
+    function updateQuantity(productQuantity) {
+        let article = productQuantity.target.closest('article');
         let index = cart.findIndex(
             (product) =>
                 product.id === article.dataset.id &&
                 product.color === article.dataset.color
         );
-        cart[index].quantity = parseInt(poductQuantity.target.value);
-        window.localStorage.setItem('panier', JSON.stringify(cart));
-        getTotals();
+        cart[index].quantity = parseInt(productQuantity.target.value);
+        if (
+            productQuantity.target.value < 1 ||
+            productQuantity.target.value > 100
+        ) {
+            alert('Merci de renseigner une quantité entre 0 et 100 !');
+        } else {
+            window.localStorage.setItem('panier', JSON.stringify(cart));
+            getTotals();
+        }
     }
     // Application de la modification de la quantité
 
@@ -194,7 +201,7 @@ form.city.addEventListener('change', function () {
 // ******* EMAIL *******
 form.email.addEventListener('change', function () {
     regExp = new RegExp(
-        '^[a-zA-Z0-9ôöáàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$',
+        '^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,3}$',
         'g'
     );
     regExpTest = regExpTest(this, regExp);
